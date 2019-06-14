@@ -12,7 +12,10 @@ import java.sql.Statement;
 import java.util.Collections;
 import java.util.Comparator;
 
-
+/**
+ * Da la puntuación, incluyendo las partidas ganadas, perdidas, porcentaje de victorias por partida jugada, récord de victorias seguidas.
+ * @author Santi
+ */
 public class Score
 {
     ArrayList<Time> bestTimes;
@@ -27,24 +30,35 @@ public class Score
 
     int currentWinningStreak;
     int currentLosingStreak;
-    
+    /**
+     * 
+     */
     public Score()
     {
         gamesPlayed = gamesWon = currentStreak = longestLosingStreak = longestWinningStreak = currentWinningStreak = currentLosingStreak = 0;
         bestTimes = new ArrayList();
     }
     
-    
+    /**
+     * 
+     * @return 
+     */
     public int getGamesPlayed()
     {
         return gamesPlayed;        
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public int getGamesWon()
     {        
         return gamesWon;
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public int getWinPercentage()
     {
         double gP = gamesPlayed;
@@ -54,46 +68,69 @@ public class Score
         
         return (int)percentage;
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public int getLongestWinningStreak()
     {
         return longestWinningStreak;
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public int getLongestLosingStreak()
     {
         return longestLosingStreak;
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public int getCurrentStreak()
     {
         return currentStreak;
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public int getCurrentLosingStreak()
     {
         return currentLosingStreak;
     }
-
+/**
+ * 
+ * @return 
+ */
     public int getCurrentWinningStreak(){
         return currentWinningStreak;
     }
-    
+    /**
+     * 
+     */
     public void incGamesWon()
     {
         gamesWon++;
     }
-    
+    /**
+     * 
+     */
     public void incGamesPlayed()
     {
         gamesPlayed++;
     }
-    
+    /**
+     * 
+     */
     public void incCurrentStreak()
     {
         currentStreak++;
     }
-    
+    /**
+     * 
+     */
     public void incCurrentLosingStreak()
     {
         currentLosingStreak++;
@@ -103,7 +140,9 @@ public class Score
             longestLosingStreak = currentLosingStreak;
         }                
     }
-
+/**
+ * 
+ */
     public void incCurrentWinningStreak()
     {
         currentWinningStreak++;
@@ -114,26 +153,37 @@ public class Score
         }                
     }
     
-    
+    /**
+     * 
+     */
     public void decCurrentStreak()
     {        
         currentStreak--;
     }    
     
-    
+    /**
+     * 
+     */
     public void resetScore()
     {
         gamesPlayed = gamesWon = currentStreak = longestLosingStreak = longestWinningStreak = currentWinningStreak = currentLosingStreak = 0;
     }
     
     
-    
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<Time> getBestTimes()
     {
         return bestTimes;
     }
         
-    
+    /**
+     * 
+     * @param time
+     * @param date 
+     */
     public void addTime(int time, Date date)
     {
         bestTimes.add(new Time(time,date));
@@ -149,6 +199,10 @@ public class Score
     //------------DATABASE--------------------------//
     
     //------------POPULATE FROM DATABASE------------//
+    /**
+     * 
+     * @return 
+     */
     public boolean populate()
     {
         Connection connection = null;
@@ -156,7 +210,7 @@ public class Score
         ResultSet resultSet = null;
 
         try {
-            String dbURL = Game.dbPath; 
+            String dbURL = Juego.dbPath; 
 
             connection = DriverManager.getConnection(dbURL); 
             statement = connection.createStatement();
@@ -213,7 +267,9 @@ public class Score
         }
     }
 
-    
+    /**
+     * 
+     */
     public void save()
     {
         Connection connection = null;
@@ -221,7 +277,7 @@ public class Score
         
 
         try {
-            String dbURL = Game.dbPath; 
+            String dbURL = Juego.dbPath; 
             
             connection = DriverManager.getConnection(dbURL); 
 
@@ -281,6 +337,9 @@ public class Score
     
     
     //---------------------------------------------------//
+    /**
+     * 
+     */
     public class TimeComparator implements Comparator<Time>
     {
         @Override
@@ -295,21 +354,34 @@ public class Score
     }
 
     //----------------------------------------------------------//
+    /**
+     * 
+     */
     public class Time{
         Date date;
         int time;
-        
+        /**
+         * 
+         * @param t
+         * @param d 
+         */
         public Time(int t, Date d)
         {
             time = t;
             date = d;
         }
-        
+        /**
+         * 
+         * @return 
+         */
         public Date getDateValue()
         {
             return date;
         }
-        
+        /**
+         * 
+         * @return 
+         */
         public int getTimeValue()
         {
             return time;

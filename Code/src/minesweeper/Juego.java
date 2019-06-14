@@ -25,28 +25,30 @@ import minesweeper.Score.Time;
 
 
 // This is the main controller class
-public class Game implements MouseListener, ActionListener, WindowListener
+public class Juego implements MouseListener, ActionListener, WindowListener
 {
     public static String dbPath;
     // "playing" indicates whether a game is running (true) or not (false).
     private boolean playing; 
 
-    private Board board;
+    private Tablero board;
 
     private UI gui;
     
     private Score score;
         
     //------------------------------------------------------------------//        
-
-    public Game()
+/**
+ * Aquí se crea la partida
+ */
+    public Juego()
     {
         // set db path
         String p = "";
 
         try 
         {
-            p = new File(Game.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath() + "\\db.accdb";
+            p = new File(Juego.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath() + "\\db.accdb";
         }
         catch (URISyntaxException ex) 
         {
@@ -76,8 +78,10 @@ public class Game implements MouseListener, ActionListener, WindowListener
         resumeGame();
     }
 
-    //-----------------Load Save Game (if any)--------------------------//
-    
+    //-----------------Load Save Juego (if any)--------------------------//
+    /**
+     * Aquí se vuelve a cargar el juego guardado
+     */
     public void resumeGame()
     {
         if(board.checkSave())
@@ -121,6 +125,9 @@ public class Game implements MouseListener, ActionListener, WindowListener
 
 
     //-------------------------------------------------//
+    /**
+     * Añade imágenes a los botones.
+     */
     public void setButtonImages()
     {
         Cell cells[][] = board.getCells();
@@ -157,20 +164,28 @@ public class Game implements MouseListener, ActionListener, WindowListener
     
     
     //------------------------------------------------------------//
-        
+        /**
+         * Crea el tablero
+         */
     public void createBoard()
     {
         // Create a new board        
-        int mines = 10;
+        int mines = DEFAULT_MINAS;
 
-        int r = 9;
-        int c = 9;
+        int r = DEFAULT_FILAS;
+        int c = DEFAULT_COLUMNAS;
                 
-        this.board = new Board(mines, r, c);        
+        this.board = new Tablero(mines, r, c);        
     }
+    private static final int DEFAULT_COLUMNAS = 9;
+    private static final int DEFAULT_FILAS = 9;
+    private static final int DEFAULT_MINAS = 10;
     
 
     //---------------------------------------------------------------//
+    /**
+     * Empieza una nueva partida
+     */
     public void newGame()
     {                
         this.playing = false;        
@@ -183,7 +198,9 @@ public class Game implements MouseListener, ActionListener, WindowListener
         gui.setMines(board.getNumberOfMines());
     }
     //------------------------------------------------------------------------------//
-    
+    /**
+     * Reinicia la misma partida
+     */
     public void restartGame()
     {
         this.playing = false;
@@ -197,6 +214,9 @@ public class Game implements MouseListener, ActionListener, WindowListener
     }
         
     //------------------------------------------------------------------------------//    
+    /**
+     * Realiza el fin de juego
+     */
     private void endGame()
     {
         playing = false;
@@ -207,7 +227,9 @@ public class Game implements MouseListener, ActionListener, WindowListener
 
     
     //-------------------------GAME WON AND GAME LOST ---------------------------------//
-    
+    /**
+     * Realiza el evento de partida ganada, creando un mensaje de ello.
+     */
     public void gameWon()
     {
         score.incCurrentStreak();
@@ -227,7 +249,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
                 
         //-----STATISTICS-----------//
         JPanel statistics = new JPanel();
-        statistics.setLayout(new GridLayout(6,1,0,10));
+        statistics.setLayout(new GridLayout(6,1,0, DEFAULT_MINAS));
         
         ArrayList<Time> bTimes = score.getBestTimes();
         
@@ -268,7 +290,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
         
         //--------BUTTONS----------//
         JPanel buttons = new JPanel();
-        buttons.setLayout(new GridLayout(1,2,10,0));
+        buttons.setLayout(new GridLayout(1,2, DEFAULT_MINAS,0));
         
         JButton exit = new JButton("Exit");
         JButton playAgain = new JButton("Play Again");
@@ -313,7 +335,9 @@ public class Game implements MouseListener, ActionListener, WindowListener
         dialog.setLocationRelativeTo(gui);
         dialog.setVisible(true);                        
     }
-    
+    /**
+     * Realiza el evento de partida perdida, creando un mensaje de ello.
+     */
     public void gameLost()
     {
         score.decCurrentStreak();
@@ -333,7 +357,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
                 
         //-----STATISTICS-----------//
         JPanel statistics = new JPanel();
-        statistics.setLayout(new GridLayout(5,1,0,10));
+        statistics.setLayout(new GridLayout(5,1,0, DEFAULT_MINAS));
         
         JLabel time = new JLabel("  Time:  " + Integer.toString(gui.getTimePassed()) + " seconds");
         
@@ -404,6 +428,9 @@ public class Game implements MouseListener, ActionListener, WindowListener
         dialog.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         dialog.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
+            /**
+             * 
+             */
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                     dialog.dispose();
                     newGame();
@@ -420,6 +447,9 @@ public class Game implements MouseListener, ActionListener, WindowListener
     
     
     //--------------------------------SCORE BOARD--------------------------------------//
+    /**
+     * Muestra la puntuación
+     */
     public void showScore()
     {
         //----------------------------------------------------------------//
@@ -453,7 +483,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
         //-----STATISTICS-----------//
         JPanel statistics = new JPanel();
         
-        statistics.setLayout(new GridLayout(6,1,0,10));        
+        statistics.setLayout(new GridLayout(6,1,0, DEFAULT_MINAS));        
         
         JLabel gPlayed = new JLabel("  Games Played:  " + score.getGamesPlayed());
         JLabel gWon = new JLabel("  Games Won:  " + score.getGamesWon());
@@ -476,7 +506,7 @@ public class Game implements MouseListener, ActionListener, WindowListener
         
         //--------BUTTONS----------//
         JPanel buttons = new JPanel();
-        buttons.setLayout(new GridLayout(1,2,10,0));
+        buttons.setLayout(new GridLayout(1,2, DEFAULT_MINAS,0));
         
         JButton close = new JButton("Close");
         JButton reset = new JButton("Reset");
@@ -533,6 +563,9 @@ public class Game implements MouseListener, ActionListener, WindowListener
 	
         
     // Shows the "solution" of the game.
+    /**
+     * 
+     */
     private void showAll()
     {
         String cellSolution;
@@ -605,7 +638,10 @@ public class Game implements MouseListener, ActionListener, WindowListener
 
     
     //--------------------------------------------------------------------------//
-    
+    /**
+     * Se crea un booleano con el que se determina si se ha terminado la partida o no.
+     * @return 
+     */
     public boolean isFinished()
     {
         boolean isFinished = true;
@@ -638,6 +674,9 @@ public class Game implements MouseListener, ActionListener, WindowListener
 
  
     //Check the game to see if its finished or not
+    /**
+     * Se comprueba si la partida ha acabado
+     */
     private void checkGame()
     {		
         if(isFinished()) 
@@ -652,6 +691,11 @@ public class Game implements MouseListener, ActionListener, WindowListener
     /*
      * If a player clicks on a zero, all surrounding cells ("neighbours") must revealed.
      * This method is recursive: if a neighbour is also a zero, his neighbours must also be revealed.
+     */
+    /**
+     * Con este, al clickar un 0, todas las celdas colindantes se revelan.
+     * @param xCo
+     * @param yCo 
      */
     public void findZeroes(int xCo, int yCo)
     {
@@ -700,6 +744,9 @@ public class Game implements MouseListener, ActionListener, WindowListener
     //-----------------------------------------------------------------------------//
     //This function is called when clicked on closed button or exit
     @Override
+    /**
+     * Se crea un evento cuando se intenta cerrar la aplicación
+     */
     public void windowClosing(WindowEvent e) 
     {
         if (playing)
@@ -767,6 +814,9 @@ public class Game implements MouseListener, ActionListener, WindowListener
     //-----------------------------------------------------------------------//
 
     @Override
+    /**
+     * 
+     */
     public void actionPerformed(ActionEvent e) {        
         JMenuItem menuItem = (JMenuItem) e.getSource();
 
@@ -819,6 +869,9 @@ public class Game implements MouseListener, ActionListener, WindowListener
         
     //Mouse Click Listener
     @Override
+    /**
+     * Determina cuando el ratón izquierdo sea pulsado.
+     */
     public void mouseClicked(MouseEvent e)
     {
         // start timer on first click
@@ -915,41 +968,71 @@ public class Game implements MouseListener, ActionListener, WindowListener
     
     //---------------------EMPTY FUNCTIONS-------------------------------//
     @Override
+    /**
+     * 
+     */
     public void mousePressed(MouseEvent e) {
     }
-
+/**
+ * 
+ * @param e 
+ */
     @Override
     public void mouseReleased(MouseEvent e) {
     }
-
+/**
+ * 
+ * @param e 
+ */
     @Override
     public void mouseEntered(MouseEvent e) {
     }
-
+/**
+ * 
+ * @param e 
+ */
     @Override
     public void mouseExited(MouseEvent e) {
     }    
-
+/**
+ * 
+ * @param e 
+ */
     @Override
     public void windowOpened(WindowEvent e) {
     }
-
+/**
+ * 
+ * @param e 
+ */
     @Override
     public void windowClosed(WindowEvent e) {
     }
-
+/**
+ * 
+ * @param e 
+ */
     @Override
     public void windowIconified(WindowEvent e) {
     }
-
+/**
+ * 
+ * @param e 
+ */
     @Override
     public void windowDeiconified(WindowEvent e) {
     }
-
+/**
+ * 
+ * @param e 
+ */
     @Override
     public void windowActivated(WindowEvent e) {
     }
-
+/**
+ * 
+ * @param e 
+ */
     @Override
     public void windowDeactivated(WindowEvent e) {
     }

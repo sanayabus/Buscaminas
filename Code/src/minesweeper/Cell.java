@@ -1,7 +1,11 @@
 package minesweeper;
 
 
-
+/**
+ * Determina qué hay en cada celda, una celda no descubierta, una con bandera, una con mina, o un número
+ *  del 0 al 8 que indique el número de minas colindantes.
+ * @author Santi
+ */
 public class Cell 
 {
     private boolean mine;
@@ -22,7 +26,9 @@ public class Cell
 
     
     //----------------------------------------------------------//
-
+/**
+ * 
+ */
     public Cell()
     {
         mine = false;
@@ -33,31 +39,50 @@ public class Cell
 
     
     //-------------GETTERS AND SETTERS----------------------------//
+    /**
+     * 
+     * @return 
+     */
     public boolean getMine()
     {
         return mine;
     }
-
+/**
+ * 
+ * @param mine 
+ */
     public void setMine(boolean mine)
     {
         this.mine = mine;
     }
-
+/**
+ * 
+ * @return 
+ */
     public String getContent()
     {
         return content;
     }
-
+/**
+ * 
+ * @param content 
+ */
     public void setContent(String content)
     {
         this.content = content;
     }
-
+/**
+ * 
+ * @return 
+ */
     public int getSurroundingMines()
     {
         return surroundingMines;
     }
-
+/**
+ * 
+ * @param surroundingMines 
+ */
     public void setSurroundingMines(int surroundingMines)
     {
         this.surroundingMines = surroundingMines;

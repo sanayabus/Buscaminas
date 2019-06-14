@@ -9,8 +9,12 @@ import java.sql.Statement;
 import javafx.util.Pair;
 
 
-
-public class Board 
+/**
+ * Es donde se contienen las minas, celdas sin minas, celdas con número de minas colindantes,
+ * guardar partida, borrar partida, cargar partida...
+ * @author Santi
+ */
+public class Tablero 
 {
     private int numberOfMines;	
     private Cell cells[][];
@@ -20,8 +24,13 @@ public class Board
 
         
     //---------------------------------------------//
-    
-    public Board(int numberOfMines, int r, int c)
+    /**
+     * 
+     * @param numberOfMines
+     * @param r
+     * @param c 
+     */
+    public Tablero(int numberOfMines, int r, int c)
     {
         this.rows = r;
         this.cols = c;
@@ -42,6 +51,9 @@ public class Board
 
     //------------------------------------------------------------------//
     //STEP 1//
+    /**
+     * 
+     */
     public void createEmptyCells()
     {
         for (int x = 0; x < cols; x++)
@@ -55,6 +67,9 @@ public class Board
 
     //------------------------------------------------------------------//
     //STEP 2//
+    /**
+     * 
+     */
     public void setMines()
     {
         int x,y;
@@ -82,6 +97,9 @@ public class Board
 
     //------------------------------------------------------------------//
     //STEP 3//
+    /**
+     * 
+     */
     public void setSurroundingMinesNumber()
     {	
         for(int x = 0 ; x < cols ; x++) 
@@ -100,6 +118,12 @@ public class Board
     //---------------------HELPER FUNCTIONS---------------------------//        
 
     //Calculates the number of surrounding mines ("neighbours")
+    /**
+     * 
+     * @param xCo
+     * @param yCo
+     * @return 
+     */
     public int calculateNeighbours(int xCo, int yCo)
     {
         int neighbours = 0;
@@ -122,7 +146,12 @@ public class Board
 
     //------------------------------------------------------------------//	
 
-    //Simply makes a coordinate a valid one (i.e within the boundaries of the Board)
+    //Simply makes a coordinate a valid one (i.e within the boundaries of the Tablero)
+    /**
+     * 
+     * @param i
+     * @return 
+     */
     public int makeValidCoordinateX(int i)
     {
         if (i < 0)
@@ -133,7 +162,12 @@ public class Board
         return i;
     }	
     
-    //Simply makes a coordinate a valid one (i.e within the boundaries of the Board)
+    //Simply makes a coordinate a valid one (i.e within the boundaries of the Tablero)
+    /**
+     * 
+     * @param i
+     * @return 
+     */
     public int makeValidCoordinateY(int i)
     {
         if (i < 0)
@@ -158,7 +192,7 @@ public class Board
         boolean saveExists = false;
 
         try {
-            String dbURL = Game.dbPath; 
+            String dbURL = Juego.dbPath; 
             
             connection = DriverManager.getConnection(dbURL); 
             statement = connection.createStatement();
@@ -187,7 +221,10 @@ public class Board
     
     //--------------LOAD SAVED GAME-----------------//
     
-    
+    /**
+     * 
+     * @return 
+     */
     public Pair loadSaveGame()
     {
         Connection connection = null;
@@ -195,7 +232,7 @@ public class Board
         ResultSet resultSet = null;
 
         try {
-            String dbURL = Game.dbPath; 
+            String dbURL = Juego.dbPath; 
             
             connection = DriverManager.getConnection(dbURL); 
             
@@ -219,7 +256,7 @@ public class Board
             resultSet.close();
             //----------------------------------------------------//
 
-            //---------------Load Game Variables-----------------//
+            //---------------Load Juego Variables-----------------//
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM GAME_STATE");
 
@@ -248,13 +285,16 @@ public class Board
     
     
     //------------------------------------------------------------------------//
+    /**
+     * 
+     */
     public void deleteSavedGame()
     {
         Connection connection = null;
         PreparedStatement statement = null;
         
         try {
-            String dbURL = Game.dbPath; 
+            String dbURL = Juego.dbPath; 
             
             connection = DriverManager.getConnection(dbURL); 
 
@@ -282,13 +322,18 @@ public class Board
     
            
     //--------------SAVE GAME IN DATABASE-----------//
+    /**
+     * 
+     * @param timer
+     * @param mines 
+     */
     public void saveGame(int timer, int mines)
     {
         Connection connection = null;
         PreparedStatement statement = null;
         
         try {
-            String dbURL = Game.dbPath; 
+            String dbURL = Juego.dbPath; 
             
             connection = DriverManager.getConnection(dbURL); 
 
@@ -338,32 +383,50 @@ public class Board
     
     //--------------------------------------------//
     //---------GETTERS AND SETTERS-------------//
+    /**
+     * 
+     * @param numberOfMines 
+     */
     public void setNumberOfMines(int numberOfMines)
     {
         this.numberOfMines = numberOfMines;
     }
-
+/**
+ * 
+ * @return 
+ */
     public int getNumberOfMines()
     {
         return numberOfMines;
     }
-
+/**
+ * 
+ * @return 
+ */
     public Cell[][] getCells()
     {
         return cells;
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public int getRows()
     {
         return rows;
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public int getCols()
     {
         return cols;
     }
     //-----------------------------------------//
-
+/**
+ * 
+ */
     public void resetBoard()
     {
         for(int x = 0 ; x < cols ; x++) 

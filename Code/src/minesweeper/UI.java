@@ -6,7 +6,10 @@ import java.awt.*;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
-
+/**
+ * Aquí se realiza la interfaz, junto con el temporizador, y los distintos botones.
+ * @author Santi
+ */
 public class UI extends JFrame
 {
     // The buttons
@@ -51,6 +54,12 @@ public class UI extends JFrame
     
     
     //---------------------------------------------------------------//
+    /**
+     * 
+     * @param r
+     * @param c
+     * @param m 
+     */
     public UI(int r, int c, int m)
     {                
         this.rows = r;
@@ -205,6 +214,9 @@ public class UI extends JFrame
     //-----------------------Related to Timer------------------------//
     
     // Starts the timer
+    /**
+     * 
+     */
     public void startTimer()
     {        
         stopTimer = false;
@@ -232,7 +244,9 @@ public class UI extends JFrame
        timer.start();
     }
 
-    
+    /**
+     * 
+     */
     public void interruptTimer()
     {
         stopTimer = true;
@@ -247,13 +261,18 @@ public class UI extends JFrame
 
         }        
     }
-    
+    /**
+     * 
+     */
     public void resetTimer()
     {
         timePassed = 0;
         timePassedLabel.setText("  " + timePassed + "  ");        
     }
-
+/**
+ * 
+ * @param t 
+ */
     public void setTimePassed(int t)
     {
         timePassed = t;
@@ -262,7 +281,9 @@ public class UI extends JFrame
     
     //-----------------------------------------------------------//
     
-    
+    /**
+     * 
+     */
     public void initGame()
     {
         hideAll();
@@ -272,6 +293,9 @@ public class UI extends JFrame
     //------------------HELPER FUNCTIONS-----------------------//
 
     //Makes buttons clickable
+    /**
+     * 
+     */
     public void enableAll()
     {
         for( int x=0 ; x<cols ; x++ ) 
@@ -284,6 +308,9 @@ public class UI extends JFrame
     }
 
     //Makes buttons non-clickable
+    /**
+     * 
+     */
     public void disableAll()
     {
         for( int x=0 ; x<cols ; x++ ) 
@@ -297,6 +324,9 @@ public class UI extends JFrame
 
 
     //Resets the content of all buttons
+    /**
+     * 
+     */
     public void hideAll()
     {
         for( int x=0 ; x<cols ; x++ ) 
@@ -312,8 +342,11 @@ public class UI extends JFrame
 
     
     //---------------SET LISTENERS--------------------------//
-    
-    public void setButtonListeners(Game game)
+    /**
+     * 
+     * @param game 
+     */
+    public void setButtonListeners(Juego game)
     {
         addWindowListener(game);
     
@@ -338,12 +371,18 @@ public class UI extends JFrame
     
     
     //-----------------GETTERS AND SETTERS--------------------//
-    
+    /**
+     * 
+     * @return 
+     */
     public JButton[][] getButtons()
     {
         return buttons;
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public int getTimePassed()
     {
         return timePassed;
@@ -351,7 +390,10 @@ public class UI extends JFrame
 
 
     //----------------------SET LOOK------------------------------//
-    
+    /**
+     * 
+     * @param look 
+     */
     public static void setLook(String look)
     {
         try {
@@ -367,38 +409,57 @@ public class UI extends JFrame
     }
 
     //-------------------------------------------------------------//
-    
+    /**
+     * 
+     * @param m 
+     */
     public void setMines(int m)
     {
         mines = m;
         minesLabel.setText("  " + Integer.toString(m) + "  ");
     }
-    
+    /**
+     * 
+     */
     public void incMines()
     {
         mines++;
         setMines(mines);
     }
-    
+    /**
+     * 
+     */
     public void decMines()
     {
         mines--;
         setMines(mines);
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public int getMines()
     {
         return mines;
     }
             
     //--------------------Related to Icons----------------------------//
+    /**
+     * 
+     * @param icon
+     * @param resizedWidth
+     * @param resizedHeight
+     * @return 
+     */
     private static Icon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) 
     {
         Image img = icon.getImage();  
         Image resizedImage = img.getScaledInstance(resizedWidth, resizedHeight,  java.awt.Image.SCALE_SMOOTH);  
         return new ImageIcon(resizedImage);
     }    
-    
+    /**
+     * 
+     */
     public void setIcons()
     {
        //---------------------Set Icons-----------------------------//
@@ -424,22 +485,34 @@ public class UI extends JFrame
         //-------------------------------------------------------//
         
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public Icon getIconMine()
     {
         return mine;
     }
-
+/**
+ * 
+ * @return 
+ */
     public Icon getIconRedMine()
     {
         return redMine;
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public Icon getIconFlag()
     {
         return flag;
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public Icon getIconTile()
     {
         return tile;       
@@ -447,6 +520,10 @@ public class UI extends JFrame
     
     
     //---------------------------------------------------------------------//
+    /**
+     * 
+     * @param b 
+     */
     public void setTextColor(JButton b)
     {
         if (b.getText().equals("1"))
